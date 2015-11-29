@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/custom.min.css" />
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/ui-lightness/jquery-ui.css" id="theme">
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/blueimp-gallery.min.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/dropzone.css" />
+</head>
+<body>
+
+    <div id="fb-root"></div>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">FUNPIC</a>
+            <div class="navbar-collapse collapse" id="navbar-main">
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li><a href="createpage">Create</a></li>
+                    <li><a href="viewall">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="bs-docs-section">
+            <div class="row" id="links">
+                {% for (idx,name) in img_indices %}
+                <div class="col-lg-4 text-center">
+                <a href="/save_original?stream_name={{stream_name}}&img_id={{id}}&img_idx={{idx}}&edit_first=0">
+                    <img src="/img?img_id={{id}}&img_idx={{idx}}" alt="{{name}}">
+                </a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="col-lg-12">
+                <ul class="pager">
+                    {% if start_idx < photo_start %}
+                    <li class="previous"><a href="/viewpage?stream_name={{stream_name}}&start_idx={{start_idx}}&end_idx={{end_idx}}&show=prev">← Previous</a></li>
+                    {% else %}
+                    <li class="previous disabled"><a>← Previous</a></li>
+                    {% endif %}
+                    {% if end_idx >= 0 %}
+                    <li class="next"><a href="/viewpage?stream_name={{stream_name}}&start_idx={{start_idx}}&end_idx={{end_idx}}&show=next">Next →</a></li>
+                    {% else %}
+                    <li class="next disabled"><a>Next →</a></li>
+                    {% endif %}
+                </ul>
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-12">
+                        <!--
+                        <form action="/uploadphoto?stream_name={{stream_name}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            <legend>Upload Photos</legend>
+                            <div class="form-group">
+                                <label for="filename" class="col-lg-2 control-label">Filename</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="filename" name="filename">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment" class="col-lg-2 control-label">Comment</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="comment" name="comment">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="file" class="col-lg-2 control-label">File</label>
+                                <div class="col-lg-10">
+                                    <input type="file" class="form-control" id="file" name="file"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <button type="reset" class="btn btn-default">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" value="Upload file">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                        -->
+                        <p class="bs-component">
+                            <form action="/uploadphoto?stream_name={{stream_name}}" class="dropzone" id="my-dropzone" enctype="multipart/form-data" style="{{upload_display}}">
+                                <div class="fallback">
+                                    <input type="file" id="file" name="file" multiple />
+                                </div>
+                            </form>
+                            <form action="/{{subscribe_value}}?stream_name={{stream_name}}" method="post" enctype="multipart/form-data" style="{{subscribe_display}}">
+                                <div>
+                                    <input type="submit" class="btn btn-primary"  value="{{subscribe_value}}">
+                                </div>
+                            </form>
+                        </p>
+                        <div id="user-is-authenticated-div" style="display:none;">
+                            <input id="postToWallWithFBUiPrompt" class="btn btn-primary" type="button" value="Post To FB" onclick="javascript:postToWallUsingFBUiAndAttachment();">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="blueimp-gallery-dialog" data-show="fade" data-hide="fade">
+    <!-- Bootstrap Image Gallery Popup Light Box -->
+        <div class="blueimp-gallery blueimp-gallery-carousel blueimp-gallery-controls">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="play-pause"></a>
+        </div>
+    </div>
+    <script rel="stylesheet" src="/stylesheets/js/jquery.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/bootstrap.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/jquery-ui.min.js"></script>
+
+    <script rel="stylesheet" src="/stylesheets/js/facebook_post.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/jquery.blueimp-gallery.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/jquery.image-gallery.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/dropzone.js"></script>
+    <script>
+    document.getElementById('links').onclick = function (event) {
+        event = event || window.event;
+        var target = event.target || event.srcElement,
+            link = target.src ? target.parentNode : target,
+            options = {index: link, event: event,"maxHeight":300},
+            links = this.getElementsByTagName('a');
+        blueimp.Dialog(links, options);
+    };
+    </script>
+    <script>
+      Dropzone.options.myDropzone = {
+
+      // Prevents Dropzone from uploading dropped files immediately
+      //autoProcessQueue: false,
+
+      init: function() {
+        //var submitButton = document.querySelector("#submit-all")
+        myDropzone = this; // closure
+
+        //submitButton.addEventListener("click", function() {
+        //  myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+        //});
+
+        // You might want to show the submit button only when
+        // files are dropped here:
+        this.on("addedfile", function(file) {
+          // Show submit button here and/or inform user to click it.
+          console.log(file.name)
+        });
+        this.on('complete', function () {
+           if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+               location.reload();
+           }
+        });
+
+      }
+    };
+    </script>
+
+
+</body>
+</html>

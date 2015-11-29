@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/custom.min.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/map.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/dateRangeSlider.css" />
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">FUNPIC</a>
+            <div class="navbar-collapse collapse" id="navbar-main">
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li><a href="createpage">Create</a></li>
+                    <li><a href="viewall">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="map_canvas" class="map"></div>
+    <div class="container">
+        <div class="bs-docs-section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="well bs-component">
+                        <div class="item rounded dark">
+                            <div id="map-container"><div id="map"></div></div>
+				        </div>
+                        <div id="slider"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
+
+    <!--<div id="map-container"><div id="map"></div></div>-->
+
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="//jqueryui.com/jquery-wp-content/themes/jquery/js/modernizr.custom.2.8.3.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/jquery-ui.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/markerclusterer.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/jquery.ui.map.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/infobox.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/jQDateRangeSlider-min.js"></script>
+
+
+    <script>
+      var map;
+      var markers = [];
+      var markerCluster = null;
+      var geo_info = {{ geo_info|safe }};
+      function initialize() {
+        var center = new google.maps.LatLng(37.4419, -122.1419);
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+          center: center,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var options = [];
+        var boxTexts = [];
+        var ibs = [];
+        //var data = { "count": 10785236,"photos": [{"photo_id": 27932, "photo_title": "Atardecer en Embalse", "photo_url": "http://www.panoramio.com/photo/27932", "photo_file_url": "http://mw2.google.com/mw-panoramio/photos/medium/27932.jpg", "longitude": -64.404945, "latitude": -32.202924, "width": 500, "height": 375, "upload_date": "25 June 2006", "owner_id": 4483, "owner_name": "Miguel Coranti", "owner_url": "http://www.panoramio.com/user/4483"},{"photo_id": 522084, "photo_title": "In Memoriam Antoine de Saint Exup矇ry", "photo_url": "http://www.panoramio.com/photo/522084", "photo_file_url": "http://mw2.google.com/mw-panoramio/photos/medium/522084.jpg", "longitude": 17.470493, "latitude": 47.867077, "width": 500, "height": 350, "upload_date": "21 January 2007", "owner_id": 109117, "owner_name": "Busa P矇ter", "owner_url": "http://www.panoramio.com/user/109117"}]};
+
+        for (var i = 0; i < {{photos_num}}; i++) {
+          var dataPhoto = geo_info[i];
+          var latLng = new google.maps.LatLng(dataPhoto.latitude,
+              dataPhoto.longitude);
+          var marker = new google.maps.Marker({
+            position: latLng
+          });
+          markers.push(marker);
+          boxTexts.push(document.createElement("div"));
+		  boxTexts[i].style.cssText = "border: 1px solid black; margin-top: 8px; background: yellow; padding: 5px;";
+		  boxTexts[i].innerHTML = "<img src=\"/img?img_id={{id}}&img_idx="+i+"\" height=100px width=100px/>";
+          ibs[i] = new google.maps.InfoWindow({content:boxTexts[i]});
+
+          google.maps.event.addListener(markers[i], "mouseover", (function (marker,i){
+          return function(){
+			ibs[i].open(map, markers[i]);
+		  }})(markers[i], i));
+		  google.maps.event.addListener(markers[i], "mouseout", (function (marker,i){
+          return function(){
+			ibs[i].close(map, markers[i]);
+		  }})(markers[i], i));
+        }
+        //markerCluster = new MarkerClusterer(map, markers);
+        setMapOnAll(map,jQuery("#slider").dateRangeSlider("values").min,jQuery("#slider").dateRangeSlider("values").max);
+      }
+
+      // Sets the map on all markers in the array.
+        function setMapOnAll(map,dateMin,dateMax) {
+            var newMarkerslist = [];
+            if (markerCluster) {
+                markerCluster.clearMarkers();
+            }
+            for (var i = 0; i < markers.length; i++) {
+                var photo_date = new Date(geo_info[i].uploadDate);
+                console.log(photo_date);
+                if(photo_date>=dateMin && photo_date<=dateMax){
+                    markers[i].setMap(map);
+                    newMarkerslist.push(markers[i]);
+                    //markerCluster.addMarker(markers[i]);
+                    console.log("show");
+                }else{
+                    markers[i].setMap(null);
+                    console.log("hidden");
+                }
+            }
+            markerCluster = new MarkerClusterer(map, newMarkerslist);
+        }
+
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+    <script>
+      var today = new Date();
+      today = new Date(today.getFullYear(), today.getMonth(), {{today_date}})
+      var default_min = new Date(today);
+      default_min.setDate(default_min.getDate() - 7);
+      var min = new Date(today);
+      min.setFullYear(min.getFullYear()-1);
+      var max = today;
+      $("#slider").dateRangeSlider({
+        bounds: {min: min, max: max},
+        defaultValues: {
+            min: default_min,
+            max: today
+        }
+      });
+      $("#slider").bind("valuesChanged", function(e, data){
+        console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
+        setMapOnAll(map,data.values.min,data.values.max);
+        });
+
+    </script>
+
+    <script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-12846745-20']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' === document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>
+{% endautoescape %}

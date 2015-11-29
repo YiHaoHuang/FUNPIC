@@ -1,0 +1,62 @@
+#navcontainer ul
+{
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+#navcontainer ul li { display: inline; }
+
+
+
+
+.image {
+  height: 200px;
+  width: 250px;
+  position: relative;
+}
+.image img {
+  position: absolute;
+  height: 200px;
+  width: 250px;
+  vertical-align : middle
+  top: 50%
+  margin: auto
+  +transform(translateY(- 50%))
+  z-index: -1;
+}
+.image h2 {
+    left: 0;
+    position:relative;
+    text-align:center;
+    vertical-align: middle;
+    top: 50%;
+    width: 100%
+    z-index: 1;
+}
+
+
+.imageAndText {
+  height: 200px;
+  width: 250px;
+  position: relative;
+}
+
+.imageAndText img {
+  position: absolute;
+  height: 200px;
+  width: 250px;
+  vertical-align : middle
+  top: 50%
+  margin: auto
+  +transform(translateY(- 50%))
+  z-index: -1;
+}
+
+.imageAndText .col {
+    z-index: +1;
+    position:relative;
+    text-align:center;
+    vertical-align: middle;
+    top: 35%;
+    right: -30%;
+    }

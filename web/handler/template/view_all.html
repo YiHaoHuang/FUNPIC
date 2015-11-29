@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/view_all.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/custom.min.css" />
+    <link rel="stylesheet" href="/stylesheets/css/jquery-2.1.4.min.js.css">
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">FUNPIC</a>
+            <div class="navbar-collapse collapse" id="navbar-main">
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li><a href="createpage">Create</a></li>
+                    <li><a href="viewall">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+      <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-6">
+                <form action="/gettag" method="post" class="form-horizontal">
+                    <fieldset>
+                        <legend>View All Streams</legend>
+                        <div class="container">
+                            <div class="row">
+                            {% for stream in streams_all %}
+                                <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                                    <div class="thumbnail">
+                                        <div class="imageAndText">
+                                            <img src="{{ stream.cover_url }}" class="align-center img-responsive">
+                                        </div>
+                                        <div class="caption">
+                                            <h3><a href="/viewpage?stream_name={{stream.name}}">{{ stream.name }}</a></h3>
+                                            <p><em>{{ stream.author.email }}</em></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </body>
+</html>
+{% endautoescape %}

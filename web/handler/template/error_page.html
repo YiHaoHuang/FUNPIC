@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/custom.min.css" />
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">FUNPIC</a>
+            <div class="navbar-collapse collapse" id="navbar-main">
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li><a href="createpage">Create</a></li>
+                    <li><a href="viewall">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+      <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-dismissible alert-danger">
+                    <h4>ERROR!</h4>
+                    <p>{{error_msg}}</p>
+                    <a href="{{direct_page}}" class="alert-link">Try Again.</a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

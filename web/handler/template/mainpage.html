@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/custom.min.css" />
+  </head>
+  <body>
+    <div class="container">
+        <div class="page-header" id="banner">
+            <h1>Welcome to FUNPIC!</h1>
+            <h2>Share the world!</h2>
+              <table>
+                <tr>
+                  <form class="form-horizontal" action="/login?login=1" method="post" enctype="multipart/form-data">
+                        <button type="submit" class="btn btn-success">Login</button>
+                  </form>
+                  <form  class="form-horizontal" action="/login?login=0" method="post" enctype="multipart/form-data">
+                        <button type="submit" class="btn btn-warning">Logout</button>
+                  </form>
+                </tr>
+              </table>
+        </div>
+    </div>
+  </body>
+</html>
+{% endautoescape %}

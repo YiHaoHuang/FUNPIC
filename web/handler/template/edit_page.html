@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/custom.min.css" />
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/ui-lightness/jquery-ui.css" id="theme">
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/blueimp-gallery.min.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/css/dropzone.css" />
+</head>
+
+<body>
+
+    <div id="fb-root"></div>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">FUNPIC</a>
+            <div class="navbar-collapse collapse" id="navbar-main">
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li><a href="createpage">Create</a></li>
+                    <li><a href="viewall">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="bs-docs-section">
+            <div class="row">
+                    <fieldset>
+                        <div class="col-lg-12">
+                            <table style="border-spacing:10px;" border="1">
+                                <tr>
+                                    <div class="col-lg-6 text-center">
+                                        <h2>ORIGINAL PHOTO</h2>
+                                        <img src="/img?img_id={{id}}&img_idx={{idx}}" alt="{{name}}">
+                                    </div>
+                                    {% if edit_first >0 %}
+                                    <div class="col-lg-6 text-center">
+                                        <h2>NEW PHOTO</h2>
+                                        <img src="/img2?img_id={{id}}&img_idx={{idx}}&img2_first={{img2_first}}" alt="{{name}}">
+                                    </div>
+                                    {% endif %}
+                                </tr>
+                            </table> <br>
+                        </div>
+                        <div class="col-lg-12">
+                            <table style="border-spacing:10px;" border="1">
+                                <div class="col-lg-12">
+                                    <tr>
+                                        <h3>FUNCTION</h3>
+                                        <form class="form-horizontal" action="/grayscale?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-success">Grayscale</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/binary?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-success">Binary</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/contour?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-success">Contour</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/rotate?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-success">Rotate</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/MedianFilter?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-info">Median Filter</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/AverageFilter?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-info">Average Filter</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/gaussianblur?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-info">Gaussian Filter</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/Highpass?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-info">High Pass Filter</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/Edge_Detection?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-info">Laplacian Filter</button>
+                                        </form>
+                                    </tr>
+                                </div>
+                            </table>
+                            <table style="border-spacing:10px;" border="1">
+                                <div class="col-lg-12">
+                                    <tr>
+                                        <form class="form-horizontal" action="/invert?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-danger">Invert-Scale</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/FSCS?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-danger">FSCS</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/narrow?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-danger">Narrow-Scale</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/squared?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-danger">Squared-Scale</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/SHARPEN?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-default">Sharpen</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/EMBOSS?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-default">Emboss</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/Brighter?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-default">Brighter</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/Darker?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-default">Darker</button>
+                                        </form>
+                                    </tr>
+                                </div>
+                            </table>
+                            <table style="border-spacing:10px;" border="1">
+                                <div class="col-lg-12">
+                                    <tr>
+                                        <form class="form-horizontal" action="/recover?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-warning btn-lg">Recover</button>
+                                        </form>
+                                        <form class="form-horizontal" action="/savephoto?stream_name_real={{stream_name_real}}&img_id={{id}}&img_idx={{idx}}&edit_first=1&img2_first={{img2_first}}" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="btn btn-primary btn-lg">SAVE THE NEW PHOTO</button>
+                                        </form>
+                                    </tr>
+                                </div>
+                            </table>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script rel="stylesheet" src="/stylesheets/js/jquery.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/bootstrap.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/jquery-ui.min.js"></script>
+
+    <script rel="stylesheet" src="/stylesheets/js/facebook_post.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/jquery.blueimp-gallery.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/jquery.image-gallery.min.js"></script>
+    <script rel="stylesheet" src="/stylesheets/js/dropzone.js"></script>
+    <script>
+    document.getElementById('links').onclick = function (event) {
+        event = event || window.event;
+        var target = event.target || event.srcElement,
+            link = target.src ? target.parentNode : target,
+            options = {index: link, event: event,"maxHeight":300},
+            links = this.getElementsByTagName('a');
+        blueimp.Dialog(links, options);
+    };
+    </script>
+    <script>
+      Dropzone.options.myDropzone = {
+
+      // Prevents Dropzone from uploading dropped files immediately
+      //autoProcessQueue: false,
+
+      init: function() {
+        //var submitButton = document.querySelector("#submit-all")
+        myDropzone = this; // closure
+
+        //submitButton.addEventListener("click", function() {
+        //  myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+        //});
+
+        // You might want to show the submit button only when
+        // files are dropped here:
+        this.on("addedfile", function(file) {
+          // Show submit button here and/or inform user to click it.
+          console.log(file.name)
+        });
+        this.on('complete', function () {
+           if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+               location.reload();
+           }
+        });
+
+      }
+    };
+    </script>
+
+
+</body>
+</html>
